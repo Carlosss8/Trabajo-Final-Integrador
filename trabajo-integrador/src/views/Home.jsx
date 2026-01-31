@@ -1,7 +1,11 @@
+import { Navbar } from "../components/NavBar"
+import "../styles/Navbar.css"
+import "../styles/Layout.css";
 const Home = () => {
 
     return (
         <>
+            <Navbar />
             <h2>Hola probando</h2>
         </>
     )
