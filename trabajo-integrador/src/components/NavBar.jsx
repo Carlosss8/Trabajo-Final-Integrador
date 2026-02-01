@@ -1,7 +1,7 @@
 import { NavLink } from "react-router-dom";
 import "../styles/Navbar.css";
 
-const Navbar = () => {
+const Navbar = ({ onLogin, onLogout, isAuth }) => {
     return (
         <nav className="navbar">
             <div className="nav-left"></div>
@@ -19,7 +19,13 @@ const Navbar = () => {
                     <NavLink to="/carrito" className="nav-link">Carrito</NavLink>
                 </li>
             </ul>
-
+            <div className="button-sesion">
+                {isAuth ? (
+                    <button onClick={onLogout}>Cerrar sesión</button>
+                ) : (
+                    <button onClick={onLogin}>Iniciar sesión</button>
+                )}
+            </div>
         </nav>
     );
 };
