@@ -21,8 +21,14 @@
     color: rgb(255, 255, 255);
     text-decoration: none;
     font-weight: bold;
-    padding: 6px 12px;
     border-radius: 6px;
+    padding: 8px 16px;
+    border-radius: 999px;
+    border: none;
+    background-color: #5d8bf6;
+    color: white;
+    cursor: pointer;
+    display: flex;
 }
 
 .button-sesion {
@@ -35,7 +41,7 @@
     padding: 8px 16px;
     border-radius: 999px;
     border: none;
-    background-color: #1f3f2f;
+    background-color: #5d8bf6;
     color: white;
     cursor: pointer;
     font-weight: bold;
