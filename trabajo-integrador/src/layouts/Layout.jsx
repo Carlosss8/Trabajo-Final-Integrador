@@ -1,5 +1,6 @@
 import { Outlet } from "react-router-dom";
 import { Navbar } from "../components/NavBar";
+import { Footer } from "../components/Footer";
 import "../styles/Layout.css"
 
 const Layout = ({ onLogin, onLogout, isAuth }) => {
@@ -11,7 +12,7 @@ const Layout = ({ onLogin, onLogout, isAuth }) => {
                 <main className="content">
                     <Outlet />
                 </main>
-
+                <Footer />
             </div>
         </>
     );
