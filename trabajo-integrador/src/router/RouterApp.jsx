@@ -7,7 +7,8 @@ import { Nosotros } from "../views/Nosotros"
 import { Carrito } from "../views/Carrito"
 import { Layout } from "../layouts/Layout";
 import { ProtectedRoute } from "../router/ProtectedRoute";
-import { Login } from "../views/Login";
+import { Login } from "../components/Login";
+import { Register } from "../components/Register";
 
 const RouterApp = () => {
 
@@ -34,6 +35,7 @@ const RouterApp = () => {
                     <Route path="/nosotros" element={<Nosotros />} />
                     <Route path="/carrito" element={<Carrito />} />
                     <Route path="/login" element={<Login onLogin={login} />} />
+                    <Route path="/register" element={<Register />} />
 
                     <Route
                         element={
