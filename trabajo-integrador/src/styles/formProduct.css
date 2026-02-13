@@ -27,7 +27,6 @@
     gap: 14px;
 }
 
-/* INPUTS */
 .form-group input {
     padding: 12px 14px;
     border-radius: 10px;
@@ -42,7 +41,6 @@
     box-shadow: 0 0 0 2px rgba(31, 72, 220, 0.2);
 }
 
-/* BUTTON */
 .form-product button {
     margin-top: 20px;
     padding: 12px;
