@@ -1,6 +1,9 @@
 import { useLocation, useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import "../styles/Layout.css";
+import { useAuth } from "../context/AuthContext";
+import { useState } from "react";
+
 
 const Login = ({ onLogin }) => {
     const location = useLocation();
@@ -15,23 +18,35 @@ const Login = ({ onLogin }) => {
 
     const { register, handleSubmit, formState: { errors }, reset } = useForm({
         data: {
-            name: "",
             email: "",
             password: ""
         }
     })
 
-    const onSubmit = handleSubmit((data) => {
-        console.log("Registrado correctamente", data)
-        reset()
-    })
+    const { login: loginUser } = useAuth()
+    const [error, setError] = useState("")
+    const [success, setSuccess] = useState("")
+
+    const onSubmit = async (data) => {
+        setError("")
+        setSuccess("")
+
+        try {
+            await loginUser(data.email, data.password)
+            setSuccess("Logueado con exito.")
+            reset()
+            navigate(from, { replace: true });
+        } catch (error) {
+            setError("Error al iniciar sesion.")
+        }
+    }
 
     return (
         <>
             <button className="button-login" onClick={() => navigate(-1)}>Volver</button>
             <main className="contacto-container">
                 <div className="card-login">
-                    <form onSubmit={onSubmit} className="contacto-form">
+                    <form onSubmit={handleSubmit(onSubmit)} className="contacto-form">
                         <h2>Iniciar sesion</h2>
 
                         <div className="form-group">
@@ -45,7 +60,7 @@ const Login = ({ onLogin }) => {
                                         message: "El correo es requerido"
                                     },
                                     pattern: {
-                                        value: "/^[a-zA-Z0-9_.+-]+@",
+                                        value: "//^[^\s@]+@[^\s@]+\.[^\s@]+$/",
                                         message: "Correo no valido"
                                     }
                                 })}
@@ -73,14 +88,16 @@ const Login = ({ onLogin }) => {
                             />
                             {errors.name && (
                                 <span className="error-nombre">
-                                    {errors.name.message}
+                                    {errors.password.message}
                                 </span>
                             )}
                         </div>
 
                         <h2>Debes loguearte o registrarte comprar nuestros productos</h2>
                         <button className="button-login" onClick={handleLogin}>Iniciar sesion</button>
-                        <button className="button-login" onClick={handleLogin}>Registrarse</button>
+                        <button className="button-login" type="button" onClick={() => navigate("/register")}>Registrarse</button>
+                        {error && <p className="error">{error}</p>}
+                        {success && <p className="success">{success}</p>}
                     </form>
 
 
