@@ -1,46 +1,39 @@
 import { useForm } from "react-hook-form";
 import "../styles/forms.css"
-
+import { useAuth } from "../context/AuthContext";
+import { useState } from "react";
 
 const Register = () => {
     const { register, handleSubmit, formState: { errors }, reset } = useForm({
         data: {
-            name: "",
+            /* name: "",*/
             email: "",
             password: ""
         }
     })
 
-    const onSubmit = handleSubmit((data) => {
-        console.log("Registrado correctamente", data)
-        reset()
-    })
+    const { register: registerUser } = useAuth();
+    const [error, setError] = useState("")
+    const [success, setSuccess] = useState("")
+
+
+    const onSubmit = async (data) => {
+        setError("")
+        setSuccess("")
+
+        try {
+            await registerUser(data.email, data.password)
+            setSuccess("Usuario creado con éxito.")
+            reset()
+        } catch (error) {
+            setError("Error al crear usuario. Verifica el mail o la contraseña.")
+        }
+    }
 
     return (
         <main className="contacto-container">
-            <form onSubmit={onSubmit} className="contacto-form">
+            <form onSubmit={handleSubmit(onSubmit)} className="contacto-form">
                 <h2>Registrarse</h2>
-
-                <div className="form-group">
-                    <p>Nombre</p>
-                    <input
-                        type="text"
-                        placeholder="Tu nombre"
-                        {...register("name", {
-                            required: {
-                                value: true,
-                                message: "El nombre es requerido"
-                            }
-                        })
-
-                        }
-                    />
-                    {errors.name && (
-                        <span className="error-nombre">
-                            {errors.name.message}
-                        </span>
-                    )}
-                </div>
 
                 <div className="form-group">
                     <p>Correo Electronico</p>
@@ -53,7 +46,7 @@ const Register = () => {
                                 message: "El correo es requerido"
                             },
                             pattern: {
-                                value: "/^[a-zA-Z0-9_.+-]+@",
+                                value: "/^[^\s@]+@[^\s@]+\.[^\s@]+$/",
                                 message: "Correo no valido"
                             }
                         })}
@@ -71,13 +64,10 @@ const Register = () => {
                         type="password"
                         placeholder="Introduzca su constraseña"
                         {...register("password", {
-                            required: {
-                                value: true,
-                                message: "La constraseña es requerida"
-                            }
-                        })
+                            required: "La contraseña es requerida",
+                            minLength: { value: 6, message: "Mínimo 6 caracteres" }
+                        })}
 
-                        }
                     />
                     {errors.name && (
                         <span className="error-nombre">
@@ -86,7 +76,9 @@ const Register = () => {
                     )}
                 </div>
 
-                <button type="submit">Registrar</button>
+                <button type="submit">Registrarse</button>
+                {error && <p className="error">{error}</p>}
+                {success && <p className="success">{success}</p>}
             </form>
         </main>
     );
