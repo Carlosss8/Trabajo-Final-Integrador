@@ -147,6 +147,7 @@ const Home = () => {
                             Editar
                         </button>
                         <button onClick={() => handleDeleteProduct(p.id)}>Borrar</button>
+
                     </div>
                 ))}
             </ul >
