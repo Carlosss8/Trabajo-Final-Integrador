@@ -1,5 +1,4 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
-import { useState } from "react";
 
 import { Home } from "../views/home";
 import { Contacto } from "../views/Contacto"
@@ -9,37 +8,26 @@ import { Layout } from "../layouts/Layout";
 import { ProtectedRoute } from "../router/ProtectedRoute";
 import { Login } from "../components/Login";
 import { Register } from "../components/Register";
+import { useAuth } from "../context/AuthContext"
 
 const RouterApp = () => {
 
-    const [isAuth, setIsAuth] = useState(
-        JSON.parse(localStorage.getItem("isAuth")) || false
-    );
-
-    const login = () => {
-        setIsAuth(true);
-        localStorage.setItem("isAuth", true);
-    };
-
-    const logout = () => {
-        setIsAuth(false);
-        localStorage.removeItem("isAuth");
-    };
+    const { user, logout } = useAuth();
 
     return (
         <BrowserRouter>
             <Routes>
-                <Route element={<Layout onLogin={login} onLogout={logout} isAuth={isAuth} />}>
+                <Route element={<Layout user={user} onLogout={logout} />}>
                     <Route path="/" element={<Home />} />
                     <Route path="/contacto" element={<Contacto />} />
                     <Route path="/nosotros" element={<Nosotros />} />
-                    <Route path="/carrito" element={<Carrito />} />
-                    <Route path="/login" element={<Login onLogin={login} />} />
+                    <Route path="/login" element={<Login />} />
                     <Route path="/register" element={<Register />} />
 
                     <Route
+                        path="/carrito"
                         element={
-                            <ProtectedRoute isAuth={isAuth}>
+                            <ProtectedRoute>
                                 <Carrito />
                             </ProtectedRoute>
                         }
