@@ -17,7 +17,7 @@ const Login = ({ onLogin }) => {
     };
 
     const { register, handleSubmit, formState: { errors }, reset } = useForm({
-        data: {
+        defaultValues: {
             email: "",
             password: ""
         }
@@ -94,7 +94,7 @@ const Login = ({ onLogin }) => {
                         </div>
 
                         <h2>Debes loguearte o registrarte comprar nuestros productos</h2>
-                        <button className="button-login" onClick={handleLogin}>Iniciar sesion</button>
+                        <button className="button-login" type="submit">Iniciar sesion</button>
                         <button className="button-login" type="button" onClick={() => navigate("/register")}>Registrarse</button>
                         {error && <p className="error">{error}</p>}
                         {success && <p className="success">{success}</p>}
