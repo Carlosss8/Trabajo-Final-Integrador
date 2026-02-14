@@ -1,4 +1,3 @@
-import { Navbar } from "../components/NavBar"
 import "../styles/Navbar.css"
 import "../styles/Layout.css";
 import "../styles/Card.css"
@@ -8,6 +7,7 @@ import { onSnapshot, collection, addDoc, getDocs, doc, updateDoc, getDoc, delete
 import { db } from "../config/firebase"
 import { useState, useEffect } from "react";
 import { useForm } from "react-hook-form"
+import { useAuth } from "../context/AuthContext";
 
 const Home = () => {
 
@@ -22,6 +22,7 @@ const Home = () => {
         image: ""
     })
 
+    const { currentUser, loading } = useAuth();
 
     useEffect(() => {
         const colRef = collection(db, "products")
@@ -82,71 +83,81 @@ const Home = () => {
 
     return (
         <>
-
-            <section className="form-input">
-                <form className="form-product" onSubmit={editingProduct ? handleUpdate : handleSubmit}>
-                    <div className="form-group">
-                        <input
-                            name="name"
-                            type="text"
-                            placeholder="Nombre"
-                            required
-                            value={formData.name}
-                            onChange={handleChange}
-                        />
-                        <input
-                            name="price"
-                            type="number"
-                            placeholder="Precio"
-                            required
-                            value={formData.price}
-                            onChange={handleChange}
-                        />
-                        <input
-                            name="image"
-                            type="text"
-                            placeholder="URL Image"
-                            required
-                            value={formData.image}
-                            onChange={handleChange}
-                        />
-                        <input
-                            name="description"
-                            type="text"
-                            placeholder="Descripcion"
-                            required
-                            value={formData.description}
-                            onChange={handleChange}
-                        />
-                        <input
-                            name="stock"
-                            type="number"
-                            placeholder="Stock"
-                            required
-                            value={formData.stock}
-                            onChange={handleChange}
-                        />
-                    </div>
-                    <button type="submit">
-                        {editingProduct ? "Actualizar" : "Agregar"}
-                    </button>
-                </form>
-            </section>
+            {currentUser && (
+                <section className="form-input">
+                    <form className="form-product" onSubmit={editingProduct ? handleUpdate : handleSubmit}>
+                        <div className="form-group">
+                            <input
+                                name="name"
+                                type="text"
+                                placeholder="Nombre"
+                                required
+                                value={formData.name}
+                                onChange={handleChange}
+                            />
+                            <input
+                                name="price"
+                                type="number"
+                                placeholder="Precio"
+                                required
+                                value={formData.price}
+                                onChange={handleChange}
+                            />
+                            <input
+                                name="image"
+                                type="text"
+                                placeholder="URL Image"
+                                required
+                                value={formData.image}
+                                onChange={handleChange}
+                            />
+                            <input
+                                name="description"
+                                type="text"
+                                placeholder="Descripcion"
+                                required
+                                value={formData.description}
+                                onChange={handleChange}
+                            />
+                            <input
+                                name="stock"
+                                type="number"
+                                placeholder="Stock"
+                                required
+                                value={formData.stock}
+                                onChange={handleChange}
+                            />
+                        </div>
+                        <button type="submit">
+                            {editingProduct ? "Actualizar" : "Agregar"}
+                        </button>
+                    </form>
+                </section>
+            )}
 
             <ul className="card-list">
                 {products.map(p => (
                     <div className="card-product" key={p.id}>
                         <img className="card-image" src={p.image} />
                         <h3>{p.name}</h3>
+                        <h4>USD: ${p.price}</h4>
                         <p>{p.description}</p>
                         <p>STOCK: {p.stock}</p>
-                        <button onClick={() => {
-                            setEditingProduct(p.id)
-                            setFormData(p)
-                        }}>
-                            Editar
-                        </button>
-                        <button onClick={() => handleDeleteProduct(p.id)}>Borrar</button>
+                        {currentUser && (
+                            <div className="card-actions">
+                                <button type="button"
+                                    className="btn btn-edit"
+                                    onClick={() => {
+                                        setEditingProduct(p.id)
+                                        setFormData(p)
+                                    }}
+                                >
+                                    Editar
+                                </button>
+
+                                <button type="button" className="btn btn-delete" onClick={() => handleDeleteProduct(p.id)} >Borrar</button>
+                            </div>
+                        )}
 
                     </div>
                 ))}
