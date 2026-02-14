@@ -1,6 +1,6 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 
-import { Home } from "../views/home";
+import { Home } from "../views/Home";
 import { Contacto } from "../views/Contacto"
 import { Nosotros } from "../views/Nosotros"
 import { Carrito } from "../views/Carrito"
@@ -12,12 +12,12 @@ import { useAuth } from "../context/AuthContext"
 
 const RouterApp = () => {
 
-    const { user, logout } = useAuth();
+    const { currentUser, logout, loading } = useAuth();
 
     return (
         <BrowserRouter>
             <Routes>
-                <Route element={<Layout user={user} onLogout={logout} />}>
+                <Route element={<Layout user={currentUser} onLogout={logout} />}>
                     <Route path="/" element={<Home />} />
                     <Route path="/contacto" element={<Contacto />} />
                     <Route path="/nosotros" element={<Nosotros />} />
