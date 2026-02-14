@@ -22,14 +22,15 @@ const Navbar = ({ user, onLogout }) => {
                     <NavLink to="/" end className="nav-link"> Inicio</NavLink>
                 </li>
                 <li>
+
                     <NavLink to="/nosotros" className="nav-link">Nosotros</NavLink>
                 </li>
                 <li>
                     <NavLink to="/contacto" className="nav-link">Contacto</NavLink>
                 </li>
-                <li>
+                {/* <li>
                     <NavLink to="/carrito" className="nav-link">Carrito</NavLink>
-                </li>
+                </li>*/}
             </ul>
             <div className="button-sesion">
                 <button onClick={handleAuthClick}>
