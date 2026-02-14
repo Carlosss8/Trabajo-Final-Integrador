@@ -1,7 +1,19 @@
 import { NavLink } from "react-router-dom";
 import "../styles/Navbar.css";
+import { useNavigate } from "react-router-dom";
 
-const Navbar = ({ onLogin, onLogout, isAuth }) => {
+const Navbar = ({ user, onLogout }) => {
+    const navigate = useNavigate();
+
+    const handleAuthClick = () => {
+        if (user) {
+            onLogout();
+            navigate("/", { replace: true });
+        } else {
+            navigate("/login");
+        }
+    };
+
     return (
         <nav className="navbar">
             <div className="nav-left"></div>
@@ -20,11 +32,9 @@ const Navbar = ({ onLogin, onLogout, isAuth }) => {
                 </li>
             </ul>
             <div className="button-sesion">
-                {isAuth ? (
-                    <button onClick={onLogout}>Cerrar sesión</button>
-                ) : (
-                    <button onClick={onLogin}>Iniciar sesión</button>
-                )}
+                <button onClick={handleAuthClick}>
+                    {user ? "Cerrar sesión" : "Iniciar sesión"}
+                </button>
             </div>
         </nav>
     );
