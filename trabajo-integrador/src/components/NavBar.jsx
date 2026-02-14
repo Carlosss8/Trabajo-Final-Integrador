@@ -1,5 +1,5 @@
 import { NavLink } from "react-router-dom";
-import "../styles/Navbar.css";
+import "../styles/NavBar.css";
 import { useNavigate } from "react-router-dom";
 
 const Navbar = ({ user, onLogout }) => {
