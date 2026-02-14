@@ -2,6 +2,7 @@ import { useForm } from "react-hook-form";
 import "../styles/forms.css"
 import { useAuth } from "../context/AuthContext";
 import { useState } from "react";
+import { useNavigate } from "react-router-dom"
 
 const Register = () => {
     const { register, handleSubmit, formState: { errors }, reset } = useForm({
@@ -12,21 +13,29 @@ const Register = () => {
         }
     })
 
+    const navigate = useNavigate();
     const { register: registerUser } = useAuth();
     const [error, setError] = useState("")
     const [success, setSuccess] = useState("")
-
+    const [showLoginButton, setShowLoginButton] = useState(false);
 
     const onSubmit = async (data) => {
         setError("")
         setSuccess("")
+        setShowLoginButton(false);
 
         try {
             await registerUser(data.email, data.password)
             setSuccess("Usuario creado con éxito.")
             reset()
+            navigate("/");
         } catch (error) {
-            setError("Error al crear usuario. Verifica el mail o la contraseña.")
+            if (error.code === "auth/email-already-in-use") {
+                setError("Este email ya está registrado, intenta con otro.");
+                setShowLoginButton(true);
+            } else {
+                setError("Error al crear usuario.");
+            }
         }
     }
 
@@ -77,9 +86,14 @@ const Register = () => {
                 </div>
 
                 <button type="submit">Registrarse</button>
-                <button type="button" onClick={() => navigate("/login", { state: { from: location.state?.from } })}>
-                    Ya tenes una cuenta creada
-                </button>
+                {showLoginButton && (
+                    <button
+                        type="button"
+                        onClick={() => navigate("/login")}
+                    >
+                        Ya tenes una cuenta creada
+                    </button>
+                )}
                 {error && <p className="error">{error}</p>}
                 {success && <p className="success">{success}</p>}
             </form>

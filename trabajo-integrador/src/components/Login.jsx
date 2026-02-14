@@ -43,7 +43,7 @@ const Login = ({ onLogin }) => {
 
     return (
         <>
-            <button className="button-login" onClick={() => navigate(-1)}>Volver</button>
+            {/*} <button className="button-login" onClick={() => navigate(-1)}>Volver</button>*/}
             <main className="contacto-container">
                 <div className="card-login">
                     <form onSubmit={handleSubmit(onSubmit)} className="contacto-form">
@@ -62,7 +62,7 @@ const Login = ({ onLogin }) => {
                                     pattern: {
                                         value: "//^[^\s@]+@[^\s@]+\.[^\s@]+$/",
                                         message: "Correo no valido"
-                                    }
+                                    },
                                 })}
                             />
                             {errors.email && (
@@ -93,7 +93,6 @@ const Login = ({ onLogin }) => {
                             )}
                         </div>
 
-                        <h2>Debes loguearte o registrarte comprar nuestros productos</h2>
                         <button className="button-login" type="submit">Iniciar sesion</button>
                         <button className="button-login" type="button" onClick={() => navigate("/register")}>Registrarse</button>
                         {error && <p className="error">{error}</p>}
