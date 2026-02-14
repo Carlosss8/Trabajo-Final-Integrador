@@ -5,7 +5,7 @@ import { useState } from "react";
 
 const Register = () => {
     const { register, handleSubmit, formState: { errors }, reset } = useForm({
-        data: {
+        defaultValues: {
             /* name: "",*/
             email: "",
             password: ""
@@ -77,6 +77,9 @@ const Register = () => {
                 </div>
 
                 <button type="submit">Registrarse</button>
+                <button type="button" onClick={() => navigate("/login", { state: { from: location.state?.from } })}>
+                    Ya tenes una cuenta creada
+                </button>
                 {error && <p className="error">{error}</p>}
                 {success && <p className="success">{success}</p>}
             </form>
