@@ -1,4 +1,4 @@
-import "../styles/Navbar.css"
+import "../styles/NavBar.css";
 import "../styles/Layout.css";
 import "../styles/Card.css"
 import "../styles/formProduct.css";
