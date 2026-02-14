@@ -1,4 +1,4 @@
-## TAREA N°7
+## TRABAJO - INTEGRADOR
 
 ## DESCRIPCION 
 Aplicación web desarrollada con React + Vite que simula el panel de administración de una tienda de ropa ![alt text](image.png).
